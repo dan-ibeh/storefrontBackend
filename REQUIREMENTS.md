@@ -16,7 +16,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 | id        | name      | price     | category       |
 | :-------- | :-------- | :-------- | :------------- |
-| `integer` | `VARCHAR` | `VARCHAR` | `VARCHAR`      |
+| `integer` | `VARCHAR` | `integer` | `VARCHAR`      |
 
 #### Orders table
 
