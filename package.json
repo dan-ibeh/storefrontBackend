@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "start": "nodemon src/server.ts",
-    "test": "set ENV=dev && db-migrate --env dev up && npm run build && npm run jasmine && db-migrate db:reset dev"
+    "test": "set ENV=test && db-migrate --env test up && npm run build && npm run jasmine && db-migrate db:reset test"
   },
   "author": "Udacity",
   "license": "ISC",

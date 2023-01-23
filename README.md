@@ -1,54 +1,152 @@
-# Storefront Backend Project
+# Storefront Backend API Project
 
-## Getting Started
+This project was done as a requirement for the completion of the Udacity FullStack JavaScript Nanodegree program.
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+This project aims to give a real-world scenario in which the backend developer's job is to architect the database, its tables and columns to fulfill the data requirements and craft a RESTful API that exposes that information to the frontend.
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+## Available Scripts
 
-## Steps to Completion
+In the project directory, you can run:
 
-### 1. Plan to Meet Requirements
+### `npm run start`
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+Runs the app in the development mode.\
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+### `npm run test`
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+Launches the test runner in the interactive watch mode.
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+### `npm run build`
 
-### 2.  DB Creation and Migrations
+Builds the app for production to the `build` folder.\
+It correctly compiles TypeScript in production mode and optimizes the build for the best performance.
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+## Environment Variables
 
-### 3. Models
+To run this project, you will need to add the following environment variables to your .env file
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+`POSTGRES_HOST=127.0.0.1`
+`POSTGRES_PORT=3000`
+`POSTGRES_DB=shopping`
+`POSTGRES_TEST_DB=shopping_test`
+`POSTGRES_USER=shopping_user`
+`POSTGRES_PASSWORD=password123`
+`ENV=dev`
+`BCRYPT_PASSWORD=faith-hope-charity`
+`SALT_ROUNDS=10`
+`TOKEN_SECRET=token123!`
 
-### 4. Express Handlers
+## Local Set up
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+Before the project can be succefully run locally, we need to set up some tools in our local machine
 
-### 5. JWTs
+#### Docker
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+Docker needs to be installed in your local machine. Docker is used to run the container what holds the database environment, whic is postgres.
 
-### 6. QA and `README.md`
+[Download Docker](https://www.docker.com/)
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+Once we have docker installed, open it up and start the docker engine.
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+Open up the project folder in the terminal
+
+```bash
+  cd storefrontBackend
+```
+
+Run this command to pull the postgres docker image and start the container in silent mode.
+
+```bash
+docker compose up -d
+```
+
+This should set up postgres based on the `docker-compose.yml` file in the project folder
+
+## Database port
+
+The postgres database will run on the default port of `:5432`
+
+Please make sure no other application or instance of postgres is using this port.
+
+## Database tables
+
+Now we need to setup our databases.
+you will need two for this project -
+
+1. shopping
+
+This is the main database
+
+2. shopping_test
+
+This is the database for test
+
+To create these databases, we need to open psql in the running container.
+
+Run
+
+```bash
+docker ps
+```
+
+to see the container id of the running container
+
+Copy the container iD and run this command
+
+```bash
+docker exec -it <container iD>  bash
+```
+
+We should now be able to run commands in the container
+
+Enter into psql with the default `postgres` user
+
+```bash
+psql -U postgres
+```
+
+Create the databases
+
+```bash
+CREATE DATABASE shopping
+CREATE DATABASE shopping_test
+```
+
+## Run Locally
+
+Go to the project directory
+
+```bash
+  cd storefrontBackend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Migrate database
+
+```bash
+db-migrate up
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+   npm run test
+```
