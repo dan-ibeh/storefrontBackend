@@ -3,6 +3,32 @@ The company stakeholders want to create an online storefront to showcase their g
 
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
+
+### Database Schema
+
+#### Users table
+
+| id        | username  | first_name | last_name |  password  |
+| :-------- | :-------- | :--------- | :-------- | :--------- |
+| `integer` | `VARCHAR` | `VARCHAR`  | `VARCHAR` |  `VARCHAR` |
+
+#### Products table
+
+| id        | name      | price     | category       |
+| :-------- | :-------- | :-------- | :------------- |
+| `integer` | `VARCHAR` | `VARCHAR` | `VARCHAR`      |
+
+#### Orders table
+
+| id        |  status       | user_id(fkey) |
+| :-------- | :------------ | :----------- |
+| `integer` | `VARCHAR`     | `integer`    |
+
+#### Order-products table
+
+| id        |  quantity  | order_id(fkey) | product_id(fkey)  |
+| :-------- | :--------- | :-------------- | :---------------- |
+| `integer` | `integer`  | `integer`       | `integer`         |
 ## API Endpoints
 #### Products
 - Index 
