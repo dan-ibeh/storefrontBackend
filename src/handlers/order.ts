@@ -16,7 +16,7 @@ const index = async (_req: Request, res: Response): Promise<void> => {
 
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.body.id as unknown as string);
+    const id = parseInt(req.params.id as unknown as string);
     const order = await store.show(id);
     res.json(order);
   } catch (err) {
@@ -28,12 +28,11 @@ const show = async (req: Request, res: Response): Promise<void> => {
 const create = async (req: Request, res: Response): Promise<void> => {
   const order: Order = {
     status: req.body.status as unknown as string,
-    user_id: parseInt(req.body.userId as unknown as string),
+    user_id: parseInt(req.body.user_id as unknown as string),
   };
 
   try {
     const newOrder = await store.create(order);
-    console.log(newOrder);
     res.json(newOrder);
   } catch (err) {
     res.status(400);
@@ -43,9 +42,9 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
 const edit = async (req: Request, res: Response): Promise<void> => {
   const order: Order = {
-    id: parseInt(req.params.id as unknown as string),
+    id: parseInt(req.body.id as unknown as string),
     status: req.body.status as unknown as string,
-    user_id: parseInt(req.body.userId as unknown as string),
+    user_id: parseInt(req.body.user_id as unknown as string),
   };
   try {
     const editedOrder = await store.edit(order);
@@ -58,7 +57,7 @@ const edit = async (req: Request, res: Response): Promise<void> => {
 
 const del = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.body.id as unknown as string);
+    const id = parseInt(req.params.id as unknown as string);
     const deletedOrder = await store.delete(id);
     res.json(deletedOrder);
   } catch (err) {
@@ -74,7 +73,6 @@ const addProduct = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const newOrder = await store.addProduct(quantity, orderId, productId);
-    console.log(newOrder);
     res.json(newOrder);
   } catch (err) {
     res.status(400);
@@ -87,7 +85,7 @@ const currentOrderByUser = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const userId = parseInt(req.body.user_id as unknown as string);
+    const userId = parseInt(req.params.user_id as unknown as string);
     const order = await store.currentOrderByUser(userId);
     res.json(order);
   } catch (err) {
@@ -101,7 +99,7 @@ const completedOrdersByUser = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const userId = parseInt(req.body.user_id as unknown as string);
+    const userId = parseInt(req.params.user_id as unknown as string);
     const order = await store.completedOrdersByUser(userId);
     res.json(order);
   } catch (err) {
@@ -116,12 +114,9 @@ const verifyAuthToken = (
   next: NextFunction,
 ): void => {
   try {
-    // const authorizationHeader = req.headers.authorization;
-    // const token = authorizationHeader?.split(" ")[1];
-    jwt.verify(
-      req.body.token as unknown as string,
-      process.env.TOKEN_SECRET as unknown as string,
-    );
+    const authorizationHeader = req.headers.authorization as unknown as string;
+    const token = authorizationHeader?.split(" ")[1];
+    jwt.verify(token, process.env.TOKEN_SECRET as unknown as string);
     next();
   } catch (err) {
     res.status(401);

@@ -30,7 +30,7 @@ export class UserStore {
     }
   }
 
-  async show(id: string): Promise<User> {
+  async show(id: number): Promise<User> {
     try {
       const sql = "SELECT * FROM users WHERE id=($1)";
       // @ts-ignore
@@ -80,7 +80,7 @@ export class UserStore {
   async edit(user: User): Promise<User> {
     try {
       const sql =
-        "UPDATE articles SET username = $2, first_name = $3, last_name = $4 password = $5 WHERE id = $1 RETURNING *";
+        "UPDATE users SET username = $2, first_name = $3, last_name = $4, password = $5 WHERE id = $1 RETURNING *";
       // @ts-ignore
       const conn = await client.connect();
 
@@ -92,19 +92,19 @@ export class UserStore {
         user.password,
       ]);
 
-      const article1 = result.rows[0];
+      const user1 = result.rows[0];
 
       conn.release();
 
-      return article1;
+      return user1;
     } catch (err) {
       throw new Error(`Could not edit article ${user.id}. Error: ${err}`);
     }
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: number): Promise<User> {
     try {
-      const sql = "DELETE FROM users WHERE id=($1)";
+      const sql = "DELETE FROM users WHERE id=($1) RETURNING *";
       // @ts-ignore
       const conn = await client.connect();
 

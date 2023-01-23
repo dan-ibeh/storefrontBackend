@@ -7,7 +7,10 @@ const store = new ProductStore();
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
     const products = await store.index();
-    res.json(products);
+    const products1 = products.map((product) => {
+      product.id, product.name, product.price, product.category;
+    });
+    res.json(products1);
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -16,9 +19,14 @@ const index = async (_req: Request, res: Response): Promise<void> => {
 
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.body.id as unknown as string);
+    const id = parseInt(req.params.id as unknown as string);
     const product = await store.show(id);
-    res.json(product);
+    res.json({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      category: product.category,
+    });
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -34,8 +42,12 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const newProduct = await store.create(product);
-    console.log(newProduct);
-    res.json(newProduct);
+    res.json({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      category: product.category,
+    });
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -44,14 +56,19 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
 const edit = async (req: Request, res: Response): Promise<void> => {
   const product: Product = {
-    id: parseInt(req.body.id as unknown as string),
+    id: parseInt(req.params.id as unknown as string),
     name: req.body.name as unknown as string,
     price: parseInt(req.body.price as unknown as string),
     category: req.body.category as unknown as string,
   };
   try {
     const editedProduct = await store.edit(product);
-    res.json(editedProduct);
+    res.json({
+      id: editedProduct.id,
+      name: editedProduct.name,
+      price: editedProduct.price,
+      category: editedProduct.category,
+    });
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -60,9 +77,14 @@ const edit = async (req: Request, res: Response): Promise<void> => {
 
 const del = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.body.id as unknown as string);
-    const deletedProduct = await store.delete(id);
-    res.json(deletedProduct);
+    const id = parseInt(req.params.id as unknown as string);
+    const product = await store.delete(id);
+    res.json({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      category: product.category,
+    });
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -75,8 +97,11 @@ const productByCategory = async (
 ): Promise<void> => {
   try {
     const category = req.body.category as unknown as string;
-    const product = await store.productByCategory(category);
-    res.json(product);
+    const products = await store.productByCategory(category);
+    const products1 = products.map((product) => {
+      product.id, product.name, product.price, product.category;
+    });
+    res.json(products1);
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -86,15 +111,12 @@ const productByCategory = async (
 const verifyAuthToken = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void => {
   try {
-    // const authorizationHeader = req.headers.authorization;
-    // const token = authorizationHeader?.split(" ")[1];
-    jwt.verify(
-      req.body.token as unknown as string,
-      process.env.TOKEN_SECRET as unknown as string
-    );
+    const authorizationHeader = req.headers.authorization as unknown as string;
+    const token = authorizationHeader?.split(" ")[1];
+    jwt.verify(token, process.env.TOKEN_SECRET as unknown as string);
     next();
   } catch (err) {
     res.status(401);
@@ -105,7 +127,7 @@ const verifyAuthToken = (
 const product_routes = (app: express.Application) => {
   app.get("/products", index);
   app.get("/products/:id", show);
-  app.get("/products/category/:category", productByCategory);
+  app.get("/products/category:category", productByCategory);
   app.post("/products", verifyAuthToken, create);
   app.put("/products/:id", edit);
   app.delete("/products/:id", verifyAuthToken, del);

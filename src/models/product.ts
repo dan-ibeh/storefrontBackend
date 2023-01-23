@@ -52,7 +52,7 @@ export class ProductStore {
       const result = await conn.query(sql, [
         product.name,
         product.price,
-        product.category
+        product.category,
       ]);
 
       const product1 = result.rows[0];
@@ -68,7 +68,7 @@ export class ProductStore {
   async edit(product: Product): Promise<Product> {
     try {
       const sql =
-        "UPDATE products SET name = $2, price = $3 WHERE id = $1 RETURNING *";
+        "UPDATE products SET name = $2, price = $3, category = $4 WHERE id = $1 RETURNING *";
       // @ts-ignore
       const conn = await client.connect();
 
@@ -76,6 +76,7 @@ export class ProductStore {
         product.id,
         product.name,
         product.price,
+        product.category,
       ]);
 
       const product1 = result.rows[0];
@@ -90,7 +91,7 @@ export class ProductStore {
 
   async delete(id: number): Promise<Product> {
     try {
-      const sql = "DELETE FROM products WHERE id=($1)";
+      const sql = "DELETE FROM products WHERE id=($1) RETURNING *";
       // @ts-ignore
       const conn = await client.connect();
 

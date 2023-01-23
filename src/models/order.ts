@@ -44,7 +44,7 @@ export class OrderStore {
   async create(order: Order): Promise<Order> {
     try {
       const sql =
-        "INSERT INTO orders (status, user_id) VALUES($1, $2)  RETURNING *";
+        "INSERT INTO orders (status, user_id) VALUES($1, $2) RETURNING *";
       // @ts-ignore
       const conn = await client.connect();
 
@@ -85,11 +85,15 @@ export class OrderStore {
 
   async delete(id: number): Promise<Order> {
     try {
-      const sql = "DELETE FROM orders WHERE id=($1)";
+      const deleteOrdersql = "DELETE FROM order_products WHERE order_id= $1";
+      const sql = "DELETE FROM orders WHERE id= $1";
+      const selectSql = "SELECT * FROM orders WHERE id= $1";
       // @ts-ignore
       const conn = await client.connect();
 
-      const result = await conn.query(sql, [id]);
+      await conn.query(deleteOrdersql, [id]);
+      await conn.query(sql, [id]);
+      const result = await conn.query(selectSql, [id]);
 
       const order = result.rows[0];
 
@@ -166,7 +170,7 @@ export class OrderStore {
   async completedOrdersByUser(user_id: number): Promise<Order[]> {
     try {
       const sql =
-        "SELECT * FROM orders WHERE user_id=($1) AND status = 'completed'";
+        "SELECT * FROM orders WHERE user_id = $1 AND status = 'completed'";
       // @ts-ignore
       const conn = await client.connect();
 
