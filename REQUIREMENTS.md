@@ -40,3 +40,211 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+## API Reference
+### Product routes
+#### Get Products
+```http
+  GET /products/
+```
+
+Returns all products
+
+#### Get Product By Id
+```http
+  GET /products/:id
+```
+
+Returns a product using the id parameter
+
+#### Get Product By Category
+```http
+  GET /products/category/:category
+```
+
+Returns all product using the id parameter
+
+#### Create Product
+```http
+  POST /products
+```
+
+Creates a product
+
+!! Requires token in the request headers object.
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `name`     | `string` | Name of the product     |
+| `price`    | `number` | price of the product    |
+| `category` | `string` | category of the product |
+
+#### Edit Product
+```http
+  PUT /products/:id
+```
+
+Edits a product based using the id parameter
+
+| Body       | Type     | Description             |
+| :--------- | :------- | :---------------------- |
+| `name`     | `string` | Name of the product     |
+| `price`    | `number` | price of the product    |
+| `category` | `string` | category of the product |
+
+#### Delete Product
+```http
+  DELETE /products/:id
+```
+
+Deletes a product based using the id parameter
+
+!! Requires token in the request headers object.
+
+### User routes
+#### Get Users
+```http
+  GET /users
+```
+
+Returns all users
+
+!! Requires token in the request headers object.
+
+#### Get User By Id
+```http
+  GET /users/:id
+```
+
+Returns a user using the id parameter
+
+!! Requires token in the request headers object.
+
+#### Create User
+```http
+  POST /users
+```
+
+Creates a user
+
+!! Requires token in the request headers object.
+
+| Body         | Type     | Description             |
+| :----------- | :------- | :---------------------- |
+| `username`   | `string` | username of the user    |
+| `first_name` | `string` | first name of the user  |
+| `last_name`  | `string` | last name of the user   |
+| `password`   | `string` | password of the user    |
+
+#### Edit User
+```http
+  PUT /users/:id
+```
+
+Edits a user based using the id parameter
+
+| Body         | Type     | Description             |
+| :----------- | :------- | :---------------------- |
+| `username`   | `string` | username of the user    |
+| `first_name` | `string` | first name of the user  |
+| `last_name`  | `string` | last name of the user   |
+| `password`   | `string` | password of the user    |
+
+#### Delete User
+```http
+  DELETE /users/:id
+```
+
+Deletes a user based using the id parameter
+
+!! Requires token in the request headers object.
+
+### Order routes
+#### Get Orders
+```http
+  GET /orders
+```
+
+Returns all orders
+
+#### Get Order By Id
+```http
+  GET /orders/:id
+```
+
+Returns an order using the id parameter
+
+#### Create Order
+```http
+  POST /orders
+```
+
+Creates an order
+
+!! Requires token in the request headers object.
+
+| Body       | Type     | Description           |
+| :--------- | :------- | :-------------------- |
+| `status`   | `string` | status of the order   |
+| `user_id`  | `number` | user id of the order  |
+
+#### Create Order-Products
+```http
+  POST /orders
+```
+
+Creates an order
+
+!! Requires token in the request headers object.
+
+| Body          | Type     | Description             |
+| :------------ | :------- | :---------------------- |
+| `quantity`    | `number` | quantity of the order   |
+| `order_id`    | `number` | order id of the order   |
+| `product_id`  | `number` | product id of the order |
+
+#### Edit Order
+```http
+  PUT /orders/:id
+```
+
+Edits an order based using the id parameter
+
+| Body       | Type     | Description           |
+| :--------- | :------- | :-------------------- |
+| `status`   | `string` | status of the order   |
+| `user_id`  | `number` | user id of the order  |
+
+#### Delete Order
+```http
+  DELETE /orders/:id
+```
+
+Deletes an order based using the id parameter
+
+!! Requires token in the request headers object.
+
+#### Get Current Order By User Id
+```http
+  GET /orders/active/:user_id
+```
+
+Returns an active order using the user_id parameter
+
+!! Requires token in the request headers object.
+
+#### Get Current Order By User Id
+```http
+  GET /orders/completed/:user_id
+```
+
+Returns all completed orders using the user_id parameter
+
+!! Requires token in the request headers object.
+
+### Dashboard routes
+#### Get Five Most Popular Pproducts
+```http
+  GET /five_most_popular
+```
+
+Returns the five most popular products

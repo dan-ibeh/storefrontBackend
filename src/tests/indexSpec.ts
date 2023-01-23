@@ -71,6 +71,11 @@ describe("Product endpoint", () => {
     });
     expect(response.status).toBe(200);
   });
+
+  it("gets the productByCategory api endpoint successfully", async (): Promise<void> => {
+    const response = await request.get("/products/category/stationery");
+    expect(response.status).toBe(200);
+  });
 });
 
 describe("Order endpoint", () => {

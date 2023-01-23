@@ -127,7 +127,7 @@ const verifyAuthToken = (
 const product_routes = (app: express.Application) => {
   app.get("/products", index);
   app.get("/products/:id", show);
-  app.get("/products/category:category", productByCategory);
+  app.get("/products/category/:category", productByCategory);
   app.post("/products", verifyAuthToken, create);
   app.put("/products/:id", edit);
   app.delete("/products/:id", verifyAuthToken, del);
