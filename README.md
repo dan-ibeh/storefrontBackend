@@ -110,11 +110,14 @@ Enter into psql with the default `postgres` user
 psql -U postgres
 ```
 
-Create the databases
+Create the user and databases
 
 ```bash
-CREATE DATABASE shopping
-CREATE DATABASE shopping_test
+CREATE USER shopping_user WITH PASSWORD 'password123';
+CREATE DATABASE shopping;
+CREATE DATABASE shopping_test;
+\c shopping
+GRANT ALL PRIVILEGES ON DATABASE shopping TO shopping_user;
 ```
 
 ## Run Locally

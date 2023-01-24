@@ -12,7 +12,7 @@ const {
   ENV,
 } = process.env;
 
-let client;
+let client: Pool;
 console.log(ENV);
 
 if (ENV === "test") {
@@ -22,9 +22,7 @@ if (ENV === "test") {
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
   });
-}
-
-if (ENV === "dev") {
+} else {
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB,

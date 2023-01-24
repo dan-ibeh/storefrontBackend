@@ -2,7 +2,6 @@ import { OrderStore } from "../models/order";
 import { ProductStore } from "../models/product";
 import { UserStore } from "../models/user";
 import { DashboardQueries } from "../services/dashboard";
-import bcrypt from "bcrypt";
 
 describe("User Model", () => {
   const store = new UserStore();
