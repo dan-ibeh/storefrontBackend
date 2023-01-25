@@ -1,6 +1,10 @@
 import app from "../server";
 import supertest from "supertest";
 
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6IkZpcnN0IFVzZXIiLCJmaXJzdF9uYW1lIjpudWxsLCJsYXN0X25hbWUiOm51bGwsInBhc3N3b3JkIjoiJDJiJDEwJFZ3VWJvYjQ0UHlBOHVuejBFSGhncXVwRlpKLzFranZQSWtUWEszWE00Uno1LnRpNTQ1U2lHIn0sImlhdCI6MTY3NDIyMTkyMH0.jO71FVr0BCuusfihV6IGs5kk6UT2whrNng3f5Tb9Dnk";
+
+
 describe("Test endpoint responses", (): void => {
   const request = supertest(app);
   it("gets the api endpoint successfully", async (): Promise<void> => {
@@ -10,24 +14,31 @@ describe("Test endpoint responses", (): void => {
 });
 
 describe("User endpoint", () => {
-  const request = supertest(app);
+    const request = supertest(app);
   it("gets the index api endpoint successfully", async (): Promise<void> => {
-    const response = await request.get("/users");
+    const response = await request
+      .get("/users")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
   it("gets the create api endpoint successfully", async (): Promise<void> => {
-    const response = await request.post("/users").send({
-      username: "daniel.ibeh",
-      first_name: "Daniel",
-      last_name: "Ibeh",
-      password: "charity",
-    });
+    const response = await request
+      .post("/users")
+      .send({
+        username: "daniel.ibeh",
+        first_name: "Daniel",
+        last_name: "Ibeh",
+        password: "charity",
+      })
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
   it("gets the show api endpoint successfully", async (): Promise<void> => {
-    const response = await request.get("/users/1");
+    const response = await request
+      .get("/users/1")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
@@ -45,16 +56,19 @@ describe("User endpoint", () => {
 describe("Product endpoint", () => {
   const request = supertest(app);
   it("gets the index api endpoint successfully", async (): Promise<void> => {
-    const response = await request.get("/products");
+    const response = await request.get("/products").set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
   it("gets the create api endpoint successfully", async (): Promise<void> => {
-    const response = await request.post("/products").send({
-      name: "Pencil",
-      price: 10,
-      category: "stationery",
-    });
+    const response = await request
+      .post("/products")
+      .send({
+        name: "Pencil",
+        price: 10,
+        category: "stationery",
+      })
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
@@ -86,11 +100,14 @@ describe("Order endpoint", () => {
   });
 
   it("gets the create api endpoint successfully", async (): Promise<void> => {
-    const response = await request.post("/orders").send({
-      id: 1,
-      status: "active",
-      user_id: 1,
-    });
+    const response = await request
+      .post("/orders")
+      .send({
+        id: 1,
+        status: "active",
+        user_id: 1,
+      })
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
@@ -108,7 +125,9 @@ describe("Order endpoint", () => {
   });
 
   it("gets the currentOrderByUser api endpoint successfully", async (): Promise<void> => {
-    const response = await request.get("/orders/active/1");
+    const response = await request
+      .get("/orders/active/1")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
@@ -122,12 +141,16 @@ describe("Order endpoint", () => {
   });
 
   it("gets the completedOrdersByUser api endpoint successfully", async (): Promise<void> => {
-    const response = await request.get("/orders/completed/1");
+    const response = await request
+      .get("/orders/completed/1")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 
   it("gets the delete api endpoint successfully", async (): Promise<void> => {
-    const response = await request.delete("/orders/1");
+    const response = await request
+      .delete("/orders/1")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 });
@@ -151,7 +174,9 @@ describe("User endpoint", () => {
 describe("Product endpoint", () => {
   const request = supertest(app);
   it("gets the delete api endpoint successfully", async (): Promise<void> => {
-    const response = await request.delete("/products/1");
+    const response = await request
+      .delete("/products/1")
+      .set("Authorization", "Bearer " + token);
     expect(response.status).toBe(200);
   });
 });

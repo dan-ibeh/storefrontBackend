@@ -7,10 +7,7 @@ const store = new ProductStore();
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
     const products = await store.index();
-    const products1 = products.map((product) => {
-      product.id, product.name, product.price, product.category;
-    });
-    res.json(products1);
+    res.json(products);
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -98,10 +95,7 @@ const productByCategory = async (
   try {
     const category = req.body.category as unknown as string;
     const products = await store.productByCategory(category);
-    const products1 = products.map((product) => {
-      product.id, product.name, product.price, product.category;
-    });
-    res.json(products1);
+    res.json(products);
   } catch (err) {
     res.status(400);
     res.json(err);

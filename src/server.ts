@@ -13,19 +13,7 @@ const address: string = `${host}:${port}`;
 app.use(bodyParser.json());
 
 app.get("/", function (req: Request, res: Response) {
-  res.send("Hello World!");
-});
-
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6IkZpcnN0IFVzZXIiLCJmaXJzdF9uYW1lIjpudWxsLCJsYXN0X25hbWUiOm51bGwsInBhc3N3b3JkIjoiJDJiJDEwJFZ3VWJvYjQ0UHlBOHVuejBFSGhncXVwRlpKLzFranZQSWtUWEszWE00Uno1LnRpNTQ1U2lHIn0sImlhdCI6MTY3NDIyMTkyMH0.jO71FVr0BCuusfihV6IGs5kk6UT2whrNng3f5Tb9Dnk";
-
-  try {
-    req.headers.authorization = "Bearer " + token;
-  } catch(err) {
-    throw new Error(`Token undefined: ${err}`)
-  }
-  next();
+  res.send("Hello Shopper!");
 });
 
 user_routes(app);

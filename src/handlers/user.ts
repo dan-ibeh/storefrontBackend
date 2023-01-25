@@ -7,10 +7,7 @@ const store = new UserStore();
 const index = async (_req: Request, res: Response) => {
   try {
     const users = await store.index();
-    const users1 = users.map((user) => {
-      user.id, user.first_name, user.last_name, user.password;
-    });
-    res.json(users1);
+    res.json(users);
   } catch (err) {
     res.status(400);
     res.json(err);
@@ -51,6 +48,7 @@ const create = async (req: Request, res: Response) => {
       first_name: user.first_name,
       last_name: user.last_name,
       password: user.password,
+      token
     });
   } catch (err) {
     res.status(400);
@@ -137,7 +135,7 @@ const user_routes = (app: express.Application) => {
   app.get("/users", verifyAuthToken, index);
   app.get("/users/:id", verifyAuthToken, show);
   app.put("/users/:id", edit);
-  app.post("/users", verifyAuthToken, create);
+  app.post("/users", create);
   app.delete("/users/:id", destroy);
 };
 
