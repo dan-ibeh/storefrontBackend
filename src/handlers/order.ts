@@ -128,8 +128,8 @@ const order_routes = (app: express.Application) => {
   app.get("/orders", index);
   app.get("/orders/:id", show);
   app.post("/orders", verifyAuthToken, create);
-  app.post("/orders/:id/products", addProduct);
-  app.put("/orders/:id", edit);
+  app.post("/orders/:id/products", verifyAuthToken, addProduct);
+  app.put("/orders/:id", verifyAuthToken, edit);
   app.delete("/orders/:id", verifyAuthToken, del);
 
   app.get("/orders/active/:user_id", verifyAuthToken, currentOrderByUser);
